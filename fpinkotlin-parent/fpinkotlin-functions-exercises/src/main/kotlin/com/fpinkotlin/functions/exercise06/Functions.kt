@@ -20,4 +20,8 @@ fun <T, U, V> higherCompose(): ((U) -> V) -> ((T) -> U) -> (T) -> V =
         }
     }
 
-fun higherAndThen() = null // Define a value function composing two (Int) -> Int functions
+fun <T, U, V> higherAndThen() = { f: (T) -> U ->
+    { g: (U) -> V ->
+        { x: T -> g(f(x)) }
+    }
+}

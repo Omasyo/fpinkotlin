@@ -1,5 +1,7 @@
 package com.fpinkotlin.recursion.exercise18
 
+import java.math.BigInteger
+
 
 fun <T> List<T>.head(): T =
     if (this.isEmpty())
@@ -42,4 +44,16 @@ fun <T> makeString(list: List<T>, separator: String): String =
             foldLeft(list.tail(), "") { x, y -> x + separator + y}
     }
 
-fun fiboCorecursive(number: Int): String = TODO("fiboCorecursive")
+fun fiboCorecursive(number: Int): String {
+    val builder = StringBuilder("0, 1")
+    tailrec fun exec(x: BigInteger, y: BigInteger, count: Int) {
+        if(count == number) {
+            builder.append(", ${x+y}")
+            return
+        }
+        builder.append(", ${x+y}")
+        exec(y, x+y, count + 1)
+    }
+    exec(BigInteger.ZERO, BigInteger.ONE, 0)
+    return builder.toString()
+}

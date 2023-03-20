@@ -22,4 +22,10 @@ fun <T, U> foldLeft(list: List<T>, z: U, f: (U, T) -> U): U {
     return foldLeft_(list, z, f)
 }
 
-fun <T> unfold(seed: T, f: (T) -> T, p: (T) -> Boolean): List<T> = TODO("unfold")
+fun <T> unfold(seed: T, f: (T) -> T, p: (T) -> Boolean): List<T> {
+    tailrec fun unfold(seed: T, acc: List<T>) : List<T> {
+        if(!p(seed)) return acc
+        return unfold(f(seed), acc + seed)
+    }
+    return unfold(seed, listOf())
+}

@@ -7,7 +7,6 @@ import io.kotlintest.specs.StringSpec
 class FoldRightTest : StringSpec() {
 
     init {
-
         "string" {
             forAll(CharKListGenerator()) { list ->
                 string(list) == list.toCharArray().fold("") { s, c -> s + c}

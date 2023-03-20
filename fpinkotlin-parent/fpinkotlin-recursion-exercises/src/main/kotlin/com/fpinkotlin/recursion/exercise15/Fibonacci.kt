@@ -1,5 +1,7 @@
 package com.fpinkotlin.recursion.exercise15
 
+import java.math.BigInteger
+
 
 fun <T> List<T>.head(): T =
     if (this.isEmpty())
@@ -22,6 +24,18 @@ fun <T, U> foldLeft(list: List<T>, z: U, f: (U, T) -> U): U {
     return foldLeft_(list, z, f)
 }
 
-fun fibo(number: Int): String = TODO("fibo")
+fun fibo(number: Int): String {
+    val builder = StringBuilder("0, 1")
+    tailrec fun exec(x: BigInteger, y: BigInteger, count: Int) {
+        if(count == number) {
+            builder.append(", ${x+y}")
+            return
+        }
+        builder.append(", ${x+y}")
+        exec(y, x+y, count + 1)
+    }
+    exec(BigInteger.ZERO, BigInteger.ONE, 0)
+    return builder.toString()
+}
 
 fun <T> makeString(list: List<T>, separator: String): String = TODO("makeString")
