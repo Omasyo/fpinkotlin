@@ -4,11 +4,12 @@ sealed class List<A> {
 
     abstract fun isEmpty(): Boolean
 
-    fun cons(a: A): List<A>  = Cons(a, this)
+    fun cons(a: A): List<A> = Cons(a, this)
 
-    fun setHead(a: A): List<A> = TODO("setHead")
+    fun setHead(a: A): List<A> = if (this is Cons) Cons(a, this.tail)
+    else  throw IllegalStateException()
 
-    private object Nil: List<Nothing>() {
+    private object Nil : List<Nothing>() {
 
         override fun isEmpty() = true
 
@@ -30,6 +31,6 @@ sealed class List<A> {
     companion object {
 
         operator fun <A> invoke(vararg az: A): List<A> =
-                az.foldRight(Nil as List<A>) { a: A, list: List<A> -> Cons(a, list) }
+            az.foldRight(Nil as List<A>) { a: A, list: List<A> -> Cons(a, list) }
     }
 }

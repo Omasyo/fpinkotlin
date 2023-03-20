@@ -11,7 +11,17 @@ sealed class List<A> {
         is Cons -> tail.cons(a)
     }
 
-    fun drop(n: Int): List<A> = TODO("drop")
+    fun drop(n: Int): List<A> {
+        tailrec fun exec(n: Int, ans: List<A>): List<A> = when (ans) {
+            Nil     -> throw IllegalStateException("setHead called on an empty list")
+            is Cons -> {
+                if(n == 0)  ans
+                else exec(n-1, ans.tail)
+            }
+        }
+
+        return exec(n, this)
+    }
 
     internal object Nil: List<Nothing>() {
 
