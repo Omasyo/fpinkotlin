@@ -15,9 +15,15 @@ sealed class List<A> {
 
     fun concat(list: List<A>): List<A> = concat(this, list)
 
-    fun init(): List<A> = TODO("init")
+    fun init(): List<A> = TODO()
 
-    fun reverse(): List<A> = TODO("reverse")
+    fun reverse(): List<A> {
+        tailrec fun exec(list: List<A>, ans: List<A>) : List<A> = when(list) {
+            is Nil -> ans
+            is Cons -> exec(list.tail, ans.concat(List(list.head)))
+        }
+        return exec(this, List())
+    }
 
     internal object Nil: List<Nothing>() {
 
