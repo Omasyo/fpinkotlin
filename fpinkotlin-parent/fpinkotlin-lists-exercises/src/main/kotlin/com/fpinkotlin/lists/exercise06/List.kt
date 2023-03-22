@@ -1,7 +1,7 @@
 package com.fpinkotlin.lists.exercise06
 
 
-sealed class List<A> {
+sealed class List<out A> {
 
     abstract fun isEmpty(): Boolean
 
@@ -77,12 +77,17 @@ sealed class List<A> {
             is Cons -> reverse(Cons(list.head, acc), list.tail)
         }
 
-        operator fun <A> invoke(vararg az: A): List<A> = TODO("invoke")
-        // Use this implementation after adding variance handling to the class
-                // az.foldRight(Nil, { a: A, list: List<A> -> Cons(a, list) })
+        operator fun <A> invoke(vararg az: A): List<A> =
+            az.foldRight(Nil, { a: A, list: List<A> -> Cons(a, list) })
     }
 }
 
-fun sum(ints: List<Int>): Int = TODO("sum")
+fun sum(ints: List<Int>): Int {
+    tailrec fun exec(ints: List<Int>, acc: Int) : Int = when(ints) {
+        is List.Cons -> exec(ints.tail, ints.head + acc)
+        else -> acc
+    }
+    return exec(ints, 0)
+}
 
 

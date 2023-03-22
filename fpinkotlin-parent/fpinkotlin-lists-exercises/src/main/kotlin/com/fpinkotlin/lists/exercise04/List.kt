@@ -15,12 +15,15 @@ sealed class List<A> {
     fun drop(n: Int): List<A> = drop(this, n)
 
     fun dropWhile(p: (A) -> Boolean): List<A> {
-        tailrec fun exec(ans: List<A>) : List<A> {
-            return when(ans) {
-                is Nil -> throw IllegalStateException()
-                is Cons -> if(p())
+        tailrec fun exec(ans: List<A>): List<A> = when (ans) {
+            Nil     -> ans
+            is Cons -> {
+                if(p(ans.head)) exec(ans.tail)
+                else ans
             }
         }
+
+        return exec(this)
     }
 
     internal object Nil: List<Nothing>() {

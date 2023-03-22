@@ -1,6 +1,5 @@
 package com.fpinkotlin.lists.exercise04
 
-
 import io.kotlintest.properties.Gen
 import io.kotlintest.properties.forAll
 import io.kotlintest.specs.StringSpec
