@@ -26,7 +26,29 @@ sealed class Tree<out A: Comparable<@UnsafeVariance A>> {
         }
     }
 
-    fun remove(a: @UnsafeVariance A): Tree<A> = TODO("remove")
+    fun remove(a: @UnsafeVariance A): Tree<A> {
+
+        fun remove(tree: Tree<A>): Tree<A> = when(tree) {
+            is T -> when {
+                a < tree.value -> T(remove(tree.left), tree.value, tree.right)
+                a > tree.value -> T(tree.left, tree.value, remove(tree.right))
+                else -> tree.left.removeMerge(tree.right)
+            }
+            is Empty -> tree
+        }
+        return remove( this)
+    }
+
+    fun removeMerge(ta: Tree<@UnsafeVariance A>): Tree<A> = when (this) {
+        Empty -> ta
+        is T -> when (ta) {
+            Empty -> this
+            is T -> when {
+                ta.value < value -> T(left.removeMerge(ta), value, right)
+                else -> T(left, value, right.removeMerge(ta))
+            }
+        }
+    }
 
     fun contains(a: @UnsafeVariance A): Boolean = when (this) {
         Empty -> false

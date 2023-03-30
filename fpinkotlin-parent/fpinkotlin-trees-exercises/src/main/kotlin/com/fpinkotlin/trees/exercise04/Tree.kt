@@ -4,9 +4,9 @@ import com.fpinkotlin.common.List
 
 sealed class Tree<out A: Comparable<@UnsafeVariance A>> {
 
-    fun size(): Int = TODO("implements of define a better solution")
+    abstract fun size(): Int
 
-    fun height(): Int = TODO("implements of define a better solution")
+    abstract fun height(): Int
 
     abstract fun isEmpty(): Boolean
 
@@ -29,6 +29,8 @@ sealed class Tree<out A: Comparable<@UnsafeVariance A>> {
     }
 
     internal object Empty : Tree<Nothing>() {
+        override fun size(): Int = 0
+        override fun height(): Int = -1
 
         override fun isEmpty(): Boolean = true
 
@@ -38,6 +40,9 @@ sealed class Tree<out A: Comparable<@UnsafeVariance A>> {
     internal class T<out A: Comparable<@UnsafeVariance A>>(internal val left: Tree<A>,
                                                            internal val value: A,
                                                            internal val right: Tree<A>) : Tree<A>() {
+        override fun size(): Int = 1 + left.size() + right.size()
+
+        override fun height(): Int = 1 + Math.max(left.height(), right.height())
 
         override fun isEmpty(): Boolean = false
 

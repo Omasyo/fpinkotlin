@@ -9,7 +9,10 @@ sealed class Option<out A> {
 
     fun <B> flatMap(f: (A) -> Option<B>): Option<B> = map(f).getOrElse(None)
 
-    fun orElse(default: () -> Option<@UnsafeVariance A>): Option<A> = TODO("Implement this function")
+    fun orElse(default: () -> Option<@UnsafeVariance A>): Option<A> = when (this) {
+        is None -> default()
+        is Some -> this
+    }
 
     fun getOrElse(default: @UnsafeVariance A): A = when (this) {
         is None -> default

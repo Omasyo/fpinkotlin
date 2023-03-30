@@ -15,7 +15,14 @@ sealed class Tree<out A: Comparable<@UnsafeVariance A>> {
         }
     }
 
-    fun contains(a: @UnsafeVariance A): Boolean = TODO("contains")
+    fun contains(a: @UnsafeVariance A): Boolean = when(this) {
+        is Empty -> false
+        is T -> when {
+            a == value -> true
+            a < value -> left.contains(a)
+            else -> right.contains(a)
+        }
+    }
 
     internal object Empty : Tree<Nothing>() {
 

@@ -105,4 +105,6 @@ fun sum(list: List<Int>): Int = list.foldRight(0) { x -> { y -> x + y } }
 
 fun product(list: List<Double>): Double = list.foldRight(1.0) { x -> { y -> x * y } }
 
-fun triple(list: List<Int>): List<Int> = TODO("triple")
+fun triple(list: List<Int>): List<Int> = list.foldRight(List.invoke()) {elem ->
+    { res: List<Int> -> res.cons(elem * 3) }
+}

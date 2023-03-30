@@ -147,4 +147,6 @@ tailrec fun <A> lastSafe(list: List<A>): Result<A> = when (list) {
     }
 }
 
-fun <A> flattenResult(list: List<Result<A>>): List<A> = TODO("flattenResult")
+fun <A> flattenResult(list: List<Result<A>>): List<A> = list.flatMap { result ->
+    result.map { List(it) }.getOrElse { List() }
+}

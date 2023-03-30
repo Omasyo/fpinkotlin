@@ -64,7 +64,7 @@ sealed class Tree<out A: Comparable<@UnsafeVariance A>> {
 
         override val height: Int = -1
 
-        override fun merge(tree: Tree<Nothing>): Tree<Nothing> = TODO("merge")
+        override fun merge(tree: Tree<Nothing>): Tree<Nothing> = tree
 
         override fun min(): Result<Nothing> = Result()
 
@@ -79,7 +79,7 @@ sealed class Tree<out A: Comparable<@UnsafeVariance A>> {
                                                            internal val value: A,
                                                            internal val right: Tree<A>) : Tree<A>() {
 
-        override fun merge(tree: Tree<@UnsafeVariance A>): Tree<A> = TODO("merge")
+        override fun merge(tree: Tree<@UnsafeVariance A>): Tree<A> = TODO()
 
         override val size: Int = 1 + left.size + right.size
 

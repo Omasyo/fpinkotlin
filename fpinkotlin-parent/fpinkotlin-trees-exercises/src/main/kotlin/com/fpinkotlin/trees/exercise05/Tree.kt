@@ -41,9 +41,9 @@ sealed class Tree<out A: Comparable<@UnsafeVariance A>> {
 
         override val height: Int = -1
 
-        override fun min(): Result<Nothing> = TODO("min")
+        override fun min(): Result<Nothing> = Result.failure("Empty list")
 
-        override fun max(): Result<Nothing> = TODO("max")
+        override fun max(): Result<Nothing> = Result.failure("Empty list")
 
         override fun isEmpty(): Boolean = true
 
@@ -58,10 +58,13 @@ sealed class Tree<out A: Comparable<@UnsafeVariance A>> {
 
         override val height: Int = 1 + max(left.height, right.height)
 
-        override fun min(): Result<A> = TODO("min")
+        override fun min(): Result<A> {
+            fun min(a: A, b: A) : A = if(a < b) a else b
+            return Result(left.min().getOrElse(value))
+        }
 
 
-        override fun max(): Result<A> = TODO("max")
+        override fun max(): Result<A> = Result(right.max().getOrElse(value))
 
         override fun isEmpty(): Boolean = false
 

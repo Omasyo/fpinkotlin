@@ -1,7 +1,7 @@
 package com.fpinkotlin.workingwithlaziness.exercise04
 
 
-class Lazy<out A>(function: () -> A): () -> A {
+class Lazy<out A>(function: () -> A) : () -> A {
 
     private val value: A by lazy(function)
 
@@ -9,8 +9,16 @@ class Lazy<out A>(function: () -> A): () -> A {
 
     companion object {
 
-        val lift2: ((String) -> (String) -> String) -> (Lazy<String>) ->  (Lazy<String>) -> Lazy<String> =
-                TODO("lift2")
+        val lift2: ((String) -> (String) -> String) -> (Lazy<String>) -> (Lazy<String>) -> Lazy<String> =
+            { f ->
+                { greetings ->
+                    { name ->
+                        Lazy {
+                            f(greetings())(name())
+                        }
+                    }
+                }
+            }
     }
 }
 
